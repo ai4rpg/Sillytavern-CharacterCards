@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* 配色方案 - 档案机打字风格 */
+  --c-granite: #3c493f; /* 深色：文字、边框 */
+  --c-grey-olive: #7e8d85; /* 辅助：未选中项、次要文字 */
+  --c-ash-grey: #b3bfb8; /* 背景：网页底色、装饰块 */
+  --c-mint-cream: #f0f7f4; /* 卡片底色 */
+  --c-celadon: #a2e3c4; /* 高亮：进度条、重点装饰 */
+
+  /* 字体 */
+  --font-archive: 'Courier New', 'Microsoft YaHei', monospace;
+  --font-round: 'HarmonyOS Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Source Han Sans CN', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif; /* 圆体字 */
+  
+  /* 圆角配置 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+}
+
+/* 魔女主题颜色 - 根据发色变换完整配色方案 */
+
+/* 白石丽 - 淡金色系 */
+.theme-UraraShiraishi {
+  --c-celadon: #f5d86a; /* 淡金色高亮 */
+  --c-ash-grey: #f5e8c7; /* 浅金色背景装饰 */
+  --c-grey-olive: #b39856; /* 金棕色辅助 */
+  --c-mint-cream: #fffef8; /* 奶油白卡片底色 */
+}
+
+/* 小田切宁宁 - 浅紫色系 */
+.theme-NeneOdagiri {
+  --c-celadon: #c9a8e6; /* 浅紫色高亮 */
+  --c-ash-grey: #e8ddf5; /* 淡紫色背景装饰 */
+  --c-grey-olive: #8b7a9d; /* 紫灰色辅助 */
+  --c-mint-cream: #fdfbff; /* 淡紫白卡片底色 */
+}
+
+/* 大冢芽子 - 草绿色系（默认） */
+.theme-MeikoOtsuka {
+  --c-celadon: #a2e3c4; /* 草绿色高亮 */
+  --c-ash-grey: #d4f0e6; /* 淡绿色背景装饰 */
+  --c-grey-olive: #7e9d88; /* 绿灰色辅助 */
+  --c-mint-cream: #f0f7f4; /* 薄荷奶油卡片底色 */
+}
+
+/* 猿岛玛利亚 - 粉红色系 */
+.theme-MariaSarushima {
+  --c-celadon: #ffb3d9; /* 粉红色高亮 */
+  --c-ash-grey: #ffe0f0; /* 淡粉色背景装饰 */
+  --c-grey-olive: #c78ba8; /* 玫瑰灰辅助 */
+  --c-mint-cream: #fffafc; /* 粉白卡片底色 */
+}
+
+/* 泷川诺亚 - 蓝绿色系 */
+.theme-NoaTakigawa {
+  --c-celadon: #6dd3c0; /* 蓝绿色高亮 */
+  --c-ash-grey: #c8ede6; /* 淡青色背景装饰 */
+  --c-grey-olive: #6b9d93; /* 青灰色辅助 */
+  --c-mint-cream: #f0fcfa; /* 青白卡片底色 */
+}
+
+/* 飞鸟美琴 - 深蓝色系 */
+.theme-MikotoAsuka {
+  --c-celadon: #5b8cb8; /* 深蓝色高亮（加深） */
+  --c-ash-grey: #b8d4e8; /* 蓝色背景装饰（加深） */
+  --c-grey-olive: #567085; /* 深蓝灰色辅助（加深） */
+  --c-mint-cream: #f0f6fa; /* 浅蓝白卡片底色（加深） */
+}
+
+/* 西园寺理香 - 橙色系 */
+.theme-RikaSaionji {
+  --c-celadon: #ffb366; /* 橙色高亮 */
+  --c-ash-grey: #ffe4c8; /* 淡橙色背景装饰 */
+  --c-grey-olive: #c69060; /* 橙棕色辅助 */
+  --c-mint-cream: #fffcf7; /* 暖白卡片底色 */
+}
+
+/* 未选择/其他 - 天蓝色系 */
+.theme-default,
+.theme-null {
+  --c-celadon: #87ceeb; /* 天蓝色高亮 */
+  --c-ash-grey: #d4e8f5; /* 淡天蓝背景装饰 */
+  --c-grey-olive: #7a9db3; /* 蓝灰色辅助 */
+  --c-mint-cream: #f5fbff; /* 天蓝白卡片底色 */
+}
