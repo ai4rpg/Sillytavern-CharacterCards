@@ -7,7 +7,7 @@
       </div>
       <span class="stat-value">{{ witchData.intimacy }}/{{ maxIntimacy }}</span>
     </div>
-    
+
     <div class="stat-row">
       <span class="stat-label">信赖度</span>
       <div class="stat-track">
@@ -31,9 +31,7 @@
       </div>
     </div>
   </div>
-  <div v-else class="no-witch-selected">
-    请先选择一位魔女
-  </div>
+  <div v-else class="no-witch-selected">请先选择一位魔女</div>
 </template>
 
 <script setup lang="ts">
@@ -113,11 +111,11 @@ const confessionLabel = computed(() => {
   bottom: 0;
   border-radius: var(--radius-lg);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &.intimacy {
     background: linear-gradient(90deg, #ff9999, #ff6b6b);
   }
-  
+
   &.trust {
     background: var(--c-celadon);
   }
@@ -167,7 +165,7 @@ const confessionLabel = computed(() => {
     min-width: 100px;
     font-size: 0.75rem;
   }
-  
+
   .stat-info {
     flex-direction: column;
     gap: 4px;

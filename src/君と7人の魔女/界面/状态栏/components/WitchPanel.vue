@@ -42,9 +42,7 @@
     </div>
     <div v-else class="empty-state">暂无重要记忆</div>
   </div>
-  <div v-else class="no-witch-selected">
-    请先选择一位魔女查看详情
-  </div>
+  <div v-else class="no-witch-selected">请先选择一位魔女查看详情</div>
 </template>
 
 <script setup lang="ts">
@@ -116,7 +114,7 @@ const witchData = computed(() => {
 
 .ability-value {
   color: var(--c-granite);
-  
+
   &.active {
     color: #2ecc71;
     font-weight: bold;
@@ -135,7 +133,9 @@ const witchData = computed(() => {
   padding: 10px;
   background: #fff;
   box-shadow: 3px 3px 8px rgba(60, 73, 63, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .memory-item:hover {

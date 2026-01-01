@@ -14,8 +14,10 @@
 
   /* 字体 */
   --font-archive: 'Courier New', 'Microsoft YaHei', monospace;
-  --font-round: 'HarmonyOS Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Source Han Sans CN', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif; /* 圆体字 */
-  
+  --font-round:
+    'HarmonyOS Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei',
+    'Source Han Sans CN', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif; /* 圆体字 */
+
   /* 圆角配置 */
   --radius-sm: 6px;
   --radius-md: 10px;

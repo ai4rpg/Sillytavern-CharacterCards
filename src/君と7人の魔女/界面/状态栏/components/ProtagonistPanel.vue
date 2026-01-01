@@ -86,7 +86,9 @@ const store = useDataStore();
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .lore-item:hover {
@@ -121,7 +123,9 @@ const store = useDataStore();
   display: flex;
   flex-direction: column;
   gap: 5px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .witch-card:hover {

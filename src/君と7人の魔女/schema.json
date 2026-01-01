@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "world": {
+      "type": "object",
+      "properties": {
+        "currentDate": {
+          "type": "string"
+        },
+        "currentTime": {
+          "type": "string"
+        },
+        "currentLocation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "currentDate",
+        "currentTime",
+        "currentLocation"
+      ]
+    },
+    "protagonist": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "witchLoreKnowledge": {
+          "default": {},
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "knownWitches": {
+          "default": {},
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "description": "witch name"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "abilityType": {
+                "type": "string",
+                "description": "e.g., body_swap, capture, telepathy"
+              },
+              "discoveredAt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "abilityType"
+            ]
+          }
+        },
+        "currentCopiedAbility": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "sourceWitch": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "abilityName": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "currentBody": {
+          "default": "<user>",
+          "type": "string",
+          "description": "the body current soul inhabits"
+        }
+      }
+    },
+    "presentCharacters": {
+      "default": {},
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "description": "character name"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "outfit": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "thought": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outfit",
+          "state"
+        ]
+      }
+    },
+    "witchRegistry": {
+      "default": {},
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "UraraShiraishi",
+          "NeneOdagiri",
+          "MeikoOtsuka",
+          "MariaSarushima",
+          "NoaTakigawa",
+          "MikotoAsuka",
+          "RikaSaionji"
+        ],
+        "description": "witch name: official 7 witches"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "confessionResult": {
+            "default": "not_confessed",
+            "type": "string",
+            "enum": [
+              "not_confessed",
+              "waiting_response",
+              "accepted",
+              "rejected",
+              "pending"
+            ]
+          },
+          "intimacy": {
+            "type": "number"
+          },
+          "trust": {
+            "type": "number"
+          },
+          "kissCount": {
+            "type": "number"
+          },
+          "isVirgin": {
+            "default": true,
+            "type": "boolean"
+          },
+          "abilityStatus": {
+            "default": {},
+            "type": "object",
+            "properties": {
+              "abilityName": {
+                "type": "string"
+              },
+              "isActive": {
+                "type": "boolean"
+              },
+              "controlledState": {
+                "default": {},
+                "type": "object",
+                "properties": {
+                  "swappedWith": {
+                    "type": "string"
+                  },
+                  "memoryLoss": {
+                    "description": "specific memory content lost",
+                    "$ref": "#/$defs/__schema0"
+                  }
+                }
+              }
+            }
+          },
+          "importantMemory": {
+            "default": {},
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "description": "event name"
+            },
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "description": "legacy format: simple description"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "when": {
+                      "description": "time of event",
+                      "$ref": "#/$defs/__schema1"
+                    },
+                    "where": {
+                      "description": "location of event",
+                      "$ref": "#/$defs/__schema2"
+                    }
+                  },
+                  "required": [
+                    "description"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "world"
+  ],
+  "$defs": {
+    "__schema0": {
+      "type": "string"
+    },
+    "__schema1": {
+      "type": "string"
+    },
+    "__schema2": {
+      "type": "string"
+    }
+  }
+}

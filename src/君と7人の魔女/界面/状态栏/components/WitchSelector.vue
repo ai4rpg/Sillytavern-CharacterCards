@@ -3,11 +3,7 @@
     <label class="selector-label">SELECT WITCH:</label>
     <select v-model="selectedWitch" class="witch-dropdown">
       <option :value="null">-- 选择魔女 --</option>
-      <option
-        v-for="witch in availableWitches"
-        :key="witch.value"
-        :value="witch.value"
-      >
+      <option v-for="witch in availableWitches" :key="witch.value" :value="witch.value">
         {{ witch.label }}
       </option>
     </select>
