@@ -28,6 +28,38 @@ function getDisplayName(name: string): string {
   if (name.toLowerCase() === 'protagonist') {
     return SillyTavern.name1 || '{{user}}';
   }
+
+  // 角色名映射表：英文 -> 中文
+  const nameMap: Record<string, string> = {
+    // 七位魔女
+    UraraShiraishi: '白石丽',
+    NeneOdagiri: '小田切宁宁',
+    MeikoOtsuka: '大冢芽子',
+    MariaSarushima: '猿岛玛利亚',
+    NoaTakigawa: '泷川诺亚',
+    MikotoAsuka: '飞鸟美琴',
+    RikaSaionji: '西园寺理香',
+    // 其他登场人物
+    RinSasaki: '佐佐木凛',
+    ToranosukeMiyamura: '宫村虎之介',
+    LeonaMiyamura: '宫村礼绪奈',
+    MiyabiItou: '伊藤雅',
+    HarumaYamazaki: '山崎春马',
+  };
+
+  // 尝试精确匹配
+  if (nameMap[name]) {
+    return nameMap[name];
+  }
+
+  // 尝试不区分大小写匹配
+  const lowerName = name.toLowerCase();
+  const matchedKey = Object.keys(nameMap).find(key => key.toLowerCase() === lowerName);
+  if (matchedKey) {
+    return nameMap[matchedKey];
+  }
+
+  // 如果没有匹配到，返回原名
   return name;
 }
 </script>
