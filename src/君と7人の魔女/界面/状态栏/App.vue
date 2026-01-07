@@ -1,15 +1,13 @@
 <template>
-  <div class="card" :class="`theme-${selectedWitch || 'default'}`">
+  <div class="card" :class="`theme-${currentTheme}`">
     <WorldSection />
-
-    <WitchSelector v-model="selectedWitch" />
-
-    <WitchStats :selected-witch="selectedWitch" />
 
     <TabNav v-model="active_tab" :tabs="tabs" />
 
     <div v-if="active_tab" class="content-area">
       <div v-if="active_tab === 'witch'" class="tab-pane active">
+        <WitchSelector v-model="selectedWitch" />
+        <WitchStats :selected-witch="selectedWitch" />
         <WitchPanel :selected-witch="selectedWitch" />
       </div>
       <div v-else-if="active_tab === 'protagonist'" class="tab-pane active">
@@ -20,11 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import WitchSelector from './components/WitchSelector.vue';
-import WitchStats from './components/WitchStats.vue';
-import WitchPanel from './components/WitchPanel.vue';
 import ProtagonistPanel from './components/ProtagonistPanel.vue';
 import TabNav from './components/TabNav.vue';
+import WitchPanel from './components/WitchPanel.vue';
+import WitchSelector from './components/WitchSelector.vue';
+import WitchStats from './components/WitchStats.vue';
 import WorldSection from './components/WorldSection.vue';
 
 const tabs = [
@@ -34,6 +32,10 @@ const tabs = [
 
 const selectedWitch = useLocalStorage<string | null>('status_bar:selected_witch', null);
 const active_tab = useLocalStorage<string | null>('status_bar:active_tab', null);
+
+const currentTheme = computed(() => {
+  return active_tab.value === 'protagonist' ? 'default' : selectedWitch.value || 'default';
+});
 </script>
 
 <style lang="scss" scoped>

@@ -13,6 +13,7 @@ export const Schema = z.object({
     currentDate: z.string(),
     currentTime: z.string(),
     currentLocation: z.string(),
+    currentEvent: z.string(),
   }),
 
   protagonist: z
@@ -23,7 +24,7 @@ export const Schema = z.object({
         .record(
           z.string().describe('witch name'),
           z.object({
-            abilityType: z.string().describe('e.g., body_swap, capture, telepathy'),
+            abilityName: z.string().describe('e.g., body_swap, capture, telepathy'),
             discoveredAt: z.string().optional(),
           }),
         )
@@ -42,14 +43,41 @@ export const Schema = z.object({
 
   presentCharacters: z
     .record(
-      z.string().describe('character name'),
+      z.string().describe('character id'),
       z.object({
-        outfit: z.string(),
-        state: z.string(),
+        name: z.string().describe('character display name'),
+        outfit: z.string().prefault(''),
+        state: z.string().prefault(''),
         thought: z.string().optional(),
       }),
     )
-    .prefault({}),
+    .prefault({})
+    .transform(characters => {
+      // 角色名映射表
+      const nameMap: Record<string, string> = {
+        protagonist: SillyTavern.name1 || '{{user}}',
+        UraraShiraishi: '白石丽',
+        NeneOdagiri: '小田切宁宁',
+        MeikoOtsuka: '大冢芽子',
+        MariaSarushima: '猿岛玛利亚',
+        NoaTakigawa: '泷川诺亚',
+        MikotoAsuka: '飞鸟美琴',
+        RikaSaionji: '西园寺理香',
+        RinSasaki: '佐佐木凛',
+        ToranosukeMiyamura: '宫村虎之介',
+        LeonaMiyamura: '宫村礼绪奈',
+        MiyabiItou: '伊藤雅',
+        HarumaYamazaki: '山崎春马',
+      };
+
+      return _.mapValues(characters, (char, id) => {
+        // 如果没有 name 字段，从映射表中获取或使用 id
+        if (!char.name) {
+          char.name = nameMap[id] || id;
+        }
+        return char;
+      });
+    }),
 
   witchRegistry: z
     .partialRecord(

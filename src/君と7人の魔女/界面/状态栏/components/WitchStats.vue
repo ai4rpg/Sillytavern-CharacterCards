@@ -5,7 +5,29 @@
       <div class="stat-track">
         <div class="stat-fill intimacy" :style="{ width: intimacyPercent + '%' }"></div>
       </div>
-      <span class="stat-value">{{ witchData.intimacy }}/{{ maxIntimacy }}</span>
+      <div
+        class="stat-value-group"
+        :class="{ unlocked: intimacyUnlocked[selectedWitch] }"
+        @click="intimacyUnlocked[selectedWitch] = true"
+      >
+        <button
+          class="stat-button minus"
+          :disabled="!intimacyUnlocked[selectedWitch] || witchData.intimacy <= 0"
+          type="button"
+          @click.stop="adjustIntimacy(-1)"
+        >
+          -
+        </button>
+        <span class="stat-value">{{ witchData.intimacy }}/{{ maxIntimacy }}</span>
+        <button
+          class="stat-button plus"
+          :disabled="!intimacyUnlocked[selectedWitch] || witchData.intimacy >= maxIntimacy"
+          type="button"
+          @click.stop="adjustIntimacy(1)"
+        >
+          +
+        </button>
+      </div>
     </div>
 
     <div class="stat-row">
@@ -13,7 +35,29 @@
       <div class="stat-track">
         <div class="stat-fill trust" :style="{ width: witchData.trust + '%' }"></div>
       </div>
-      <span class="stat-value">{{ witchData.trust }}/100</span>
+      <div
+        class="stat-value-group"
+        :class="{ unlocked: trustUnlocked[selectedWitch] }"
+        @click="trustUnlocked[selectedWitch] = true"
+      >
+        <button
+          class="stat-button minus"
+          :disabled="!trustUnlocked[selectedWitch] || witchData.trust <= 0"
+          type="button"
+          @click.stop="adjustTrust(-1)"
+        >
+          -
+        </button>
+        <span class="stat-value">{{ witchData.trust }}/100</span>
+        <button
+          class="stat-button plus"
+          :disabled="!trustUnlocked[selectedWitch] || witchData.trust >= 100"
+          type="button"
+          @click.stop="adjustTrust(1)"
+        >
+          +
+        </button>
+      </div>
     </div>
 
     <div class="stat-info">
@@ -25,7 +69,11 @@
         <span class="info-label">亲吻次数:</span>
         <span class="info-value">{{ witchData.kissCount }}次</span>
       </div>
-      <div class="info-item">
+      <div
+        class="info-item virgin-item"
+        :class="{ unlocked: virginUnlocked[selectedWitch] }"
+        @click="virginUnlocked[selectedWitch] = true"
+      >
         <span class="info-label">处女:</span>
         <span class="info-value">{{ witchData.isVirgin ? '是' : '否' }}</span>
       </div>
@@ -35,6 +83,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Schema } from '../../../schema';
 import { useDataStore } from '../store';
 
 const props = defineProps<{
@@ -43,9 +92,14 @@ const props = defineProps<{
 
 const store = useDataStore();
 
+const intimacyUnlocked = ref<Record<string, boolean>>({});
+const trustUnlocked = ref<Record<string, boolean>>({});
+const virginUnlocked = ref<Record<string, boolean>>({});
+
 const witchData = computed(() => {
   if (!props.selectedWitch) return null;
-  return store.data.witchRegistry[props.selectedWitch];
+  const data = store.data as unknown as Schema;
+  return data.witchRegistry[props.selectedWitch as keyof typeof data.witchRegistry];
 });
 
 const maxIntimacy = computed(() => {
@@ -69,6 +123,22 @@ const confessionLabel = computed(() => {
   };
   return labels[witchData.value.confessionResult] || witchData.value.confessionResult;
 });
+
+function adjustIntimacy(delta: number) {
+  if (!props.selectedWitch || !witchData.value) return;
+  const data = store.data as unknown as Schema;
+  const witch = data.witchRegistry[props.selectedWitch as keyof typeof data.witchRegistry];
+  if (!witch) return;
+  witch.intimacy = _.clamp(witch.intimacy + delta, 0, maxIntimacy.value);
+}
+
+function adjustTrust(delta: number) {
+  if (!props.selectedWitch || !witchData.value) return;
+  const data = store.data as unknown as Schema;
+  const witch = data.witchRegistry[props.selectedWitch as keyof typeof data.witchRegistry];
+  if (!witch) return;
+  witch.trust = _.clamp(witch.trust + delta, 0, 100);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -84,13 +154,13 @@ const confessionLabel = computed(() => {
 .stat-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .stat-label {
   font-weight: bold;
   font-size: 0.85rem;
-  min-width: 140px;
+  min-width: 64px;
   font-family: var(--font-round);
 }
 
@@ -121,11 +191,62 @@ const confessionLabel = computed(() => {
   }
 }
 
+.stat-value-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  filter: blur(4px);
+  transition: filter 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.stat-value-group.unlocked {
+  filter: blur(0);
+  cursor: default;
+}
+
 .stat-value {
   font-weight: bold;
   font-size: 0.85rem;
   min-width: 60px;
-  text-align: right;
+  text-align: center;
+}
+
+.stat-button {
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  border: 1.5px solid var(--c-granite);
+  background: var(--c-mint-cream);
+  color: var(--c-granite);
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px rgba(60, 73, 63, 0.16);
+  transition: all 0.15s ease;
+  pointer-events: none;
+}
+
+.stat-value-group.unlocked .stat-button {
+  pointer-events: auto;
+}
+
+.stat-button:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px rgba(60, 73, 63, 0.16);
+}
+
+.stat-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.stat-button:focus-visible {
+  outline: 2px dashed var(--c-granite);
+  outline-offset: 2px;
 }
 
 .stat-info {
@@ -138,6 +259,18 @@ const confessionLabel = computed(() => {
 
 .info-item {
   font-size: 0.8rem;
+}
+
+.virgin-item {
+  filter: blur(4px);
+  transition: filter 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.virgin-item.unlocked {
+  filter: blur(0);
+  cursor: default;
 }
 
 .info-label {

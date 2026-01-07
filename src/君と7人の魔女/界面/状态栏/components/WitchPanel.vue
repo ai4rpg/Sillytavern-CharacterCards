@@ -1,7 +1,11 @@
 <template>
   <div v-if="selectedWitch && witchData" class="witch-panel">
     <div class="section-head">能力状态</div>
-    <div class="ability-box">
+    <div
+      class="ability-box"
+      :class="{ locked: !isWitchKnown, unlocked: abilityUnlocked[selectedWitch] }"
+      @click="unlockAbility"
+    >
       <div class="ability-row">
         <span class="ability-label">能力名称:</span>
         <span class="ability-value">{{ witchData.abilityStatus.abilityName || '未知' }}</span>
@@ -47,6 +51,7 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
+import type { Schema } from '../../../schema';
 import { useDataStore } from '../store';
 
 const props = defineProps<{
@@ -54,11 +59,25 @@ const props = defineProps<{
 }>();
 
 const store = useDataStore();
+const abilityUnlocked = ref<Record<string, boolean>>({});
 
 const witchData = computed(() => {
   if (!props.selectedWitch) return null;
-  return store.data.witchRegistry[props.selectedWitch];
+  const data = store.data as unknown as Schema;
+  return data.witchRegistry[props.selectedWitch as keyof typeof data.witchRegistry];
 });
+
+const isWitchKnown = computed(() => {
+  if (!props.selectedWitch) return false;
+  const data = store.data as unknown as Schema;
+  return props.selectedWitch in data.protagonist.knownWitches;
+});
+
+function unlockAbility() {
+  if (!isWitchKnown.value && props.selectedWitch) {
+    abilityUnlocked.value[props.selectedWitch] = true;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -92,10 +111,23 @@ const witchData = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: box-shadow 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    filter 0.3s ease;
 }
 
-.ability-box:hover {
+.ability-box.locked {
+  filter: blur(4px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.ability-box.locked.unlocked {
+  filter: blur(0);
+  cursor: default;
+}
+
+.ability-box:not(.locked):hover {
   box-shadow: 3px 3px 10px rgba(60, 73, 63, 0.1);
 }
 

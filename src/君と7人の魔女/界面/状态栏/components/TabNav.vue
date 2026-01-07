@@ -28,41 +28,37 @@ function toggleTab(id: string) {
 <style lang="scss" scoped>
 .tabs {
   display: flex;
-  background-color: var(--c-grey-olive);
-  border-bottom: 3px solid var(--c-granite);
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
 }
 
 .tab-button {
   flex: 1;
-  padding: 10px 12px;
+  padding: 6px 12px;
   border: none;
   background: transparent;
-  color: var(--c-mint-cream);
+  color: var(--c-grey-olive);
   font-size: 0.92rem;
   font-weight: bold;
   font-family: var(--font-round);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: uppercase;
-  border-right: 1.5px solid var(--c-granite);
   position: relative;
 }
 
-.tab-button:last-child {
-  border-right: none;
-}
-
 .tab-button:hover {
-  background-color: var(--c-ash-grey);
-  color: var(--c-granite);
-  transform: translateY(-2px);
+  background-color: rgba(60, 73, 63, 0.05);
+  opacity: 1;
 }
 
 .tab-button.active {
-  background-color: var(--c-mint-cream);
+  background-color: transparent;
   color: var(--c-granite);
-  transform: translateY(2px);
-  padding-bottom: 12px;
+  opacity: 1;
+  font-weight: 900;
 }
 
 .tab-button.active::before {

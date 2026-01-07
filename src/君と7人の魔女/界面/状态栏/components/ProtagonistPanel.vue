@@ -1,8 +1,8 @@
 <template>
   <div class="protagonist-panel">
     <div class="section-head">魔女知识</div>
-    <div v-if="!_.isEmpty(store.data.protagonist.witchLoreKnowledge)" class="lore-list">
-      <div v-for="(knowledge, topic) in store.data.protagonist.witchLoreKnowledge" :key="topic" class="lore-item">
+    <div v-if="!_.isEmpty(data.protagonist.witchLoreKnowledge)" class="lore-list">
+      <div v-for="(knowledge, topic) in data.protagonist.witchLoreKnowledge" :key="topic" class="lore-item">
         <span class="lore-topic">【{{ topic }}】</span>
         <span class="lore-content">{{ knowledge }}</span>
       </div>
@@ -10,10 +10,10 @@
     <div v-else class="empty-state">尚未掌握魔女相关知识</div>
 
     <div class="section-head">已知魔女</div>
-    <div v-if="!_.isEmpty(store.data.protagonist.knownWitches)" class="witch-grid">
-      <div v-for="(witch, name) in store.data.protagonist.knownWitches" :key="name" class="witch-card">
+    <div v-if="!_.isEmpty(data.protagonist.knownWitches)" class="witch-grid">
+      <div v-for="(witch, name) in data.protagonist.knownWitches" :key="name" class="witch-card">
         <div class="witch-name">{{ name }}</div>
-        <div class="witch-ability">能力: {{ witch.abilityType }}</div>
+        <div class="witch-ability">能力: {{ witch.abilityName }}</div>
         <div v-if="witch.discoveredAt" class="witch-discovered">发现于: {{ witch.discoveredAt }}</div>
       </div>
     </div>
@@ -23,18 +23,18 @@
     <div class="status-box">
       <div class="status-row">
         <span class="status-label">当前身体:</span>
-        <span class="status-value">{{ store.data.protagonist.currentBody }}</span>
+        <span class="status-value">{{ data.protagonist.currentBody }}</span>
       </div>
       <div class="status-row">
         <span class="status-label">复制能力来源:</span>
         <span class="status-value">
-          {{ store.data.protagonist.currentCopiedAbility.sourceWitch || '无' }}
+          {{ data.protagonist.currentCopiedAbility.sourceWitch || '无' }}
         </span>
       </div>
       <div class="status-row">
         <span class="status-label">复制的能力:</span>
         <span class="status-value">
-          {{ store.data.protagonist.currentCopiedAbility.abilityName || '无' }}
+          {{ data.protagonist.currentCopiedAbility.abilityName || '无' }}
         </span>
       </div>
     </div>
@@ -43,9 +43,11 @@
 
 <script setup lang="ts">
 import _ from 'lodash';
+import type { Schema } from '../../../schema';
 import { useDataStore } from '../store';
 
 const store = useDataStore();
+const data = computed(() => store.data as unknown as Schema);
 </script>
 
 <style lang="scss" scoped>
