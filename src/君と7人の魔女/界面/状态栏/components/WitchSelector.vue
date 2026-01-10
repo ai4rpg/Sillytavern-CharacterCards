@@ -158,8 +158,13 @@ watch(
   { immediate: true },
 );
 
-// 卡片入场动画
+// 初始化：如果没有选中魔女但有可用魔女，自动选择第一个
 onMounted(() => {
+  if (!selectedWitch.value && totalWitches.value > 0) {
+    selectedWitch.value = availableWitches.value[0].value;
+  }
+
+  // 卡片入场动画
   const card = document.querySelector('.witch-card');
   if (card) {
     gsap.from(card, {

@@ -50,6 +50,7 @@ const data = computed(() => store.data as unknown as Schema);
   display: flex;
   gap: 10px;
   overflow-x: auto;
+  padding: 4px 0;
 }
 
 .character-badge {
