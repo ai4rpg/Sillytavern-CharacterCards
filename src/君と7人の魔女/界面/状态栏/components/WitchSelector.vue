@@ -14,7 +14,9 @@
           <div v-if="currentWitch" :key="currentWitch.value" class="witch-card" :class="`theme-${currentWitch.value}`">
             <div class="card-glow"></div>
             <div class="card-content">
-              <div class="witch-icon">✦</div>
+              <div class="witch-portrait">
+                <img :src="getWitchPortrait(currentWitch.value)" :alt="currentWitch.label" />
+              </div>
               <h3 class="witch-name">{{ currentWitch.label }}</h3>
               <div class="witch-subtitle">{{ getWitchSubtitle(currentWitch.value) }}</div>
               <div class="card-decoration">
@@ -61,6 +63,8 @@ import gsap from 'gsap';
 import type { Schema } from '../../../schema';
 import { useDataStore } from '../store';
 
+// 导入头像图片
+
 const WITCH_NAME_MAP: Record<string, string> = {
   UraraShiraishi: '白石丽',
   NeneOdagiri: '小田切宁宁',
@@ -79,6 +83,16 @@ const WITCH_SUBTITLES: Record<string, string> = {
   NoaTakigawa: '第五の魔女',
   MikotoAsuka: '第六の魔女',
   RikaSaionji: '第七の魔女',
+};
+
+const WITCH_PORTRAITS: Record<string, string> = {
+  UraraShiraishi: 'https://files.catbox.moe/rm8op7.png',
+  NeneOdagiri: 'https://files.catbox.moe/c76s41.png',
+  MeikoOtsuka: 'https://files.catbox.moe/qwg4bi.png',
+  MariaSarushima: 'https://files.catbox.moe/a6o4gp.png',
+  NoaTakigawa: 'https://files.catbox.moe/sccolg.png',
+  MikotoAsuka: 'https://files.catbox.moe/jvm4vn.png',
+  RikaSaionji: 'https://files.catbox.moe/ccgmgn.png',
 };
 
 const store = useDataStore();
@@ -111,6 +125,11 @@ const currentWitch = computed(() => {
 // 获取魔女副标题
 function getWitchSubtitle(witchKey: string): string {
   return WITCH_SUBTITLES[witchKey] || '';
+}
+
+// 获取魔女头像
+function getWitchPortrait(witchKey: string): string {
+  return WITCH_PORTRAITS[witchKey] || '';
 }
 
 // 上一个魔女
@@ -284,6 +303,42 @@ onMounted(() => {
 
   &.empty {
     padding: 40px 24px;
+  }
+}
+
+.witch-portrait {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--c-celadon);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    0 0 20px var(--c-celadon);
+  animation: pulse-portrait 2s ease-in-out infinite;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+@keyframes pulse-portrait {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 0 20px var(--c-celadon);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.2),
+      0 0 30px var(--c-celadon);
   }
 }
 

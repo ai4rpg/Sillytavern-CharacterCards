@@ -45,7 +45,7 @@ export const Schema = z.object({
     .record(
       z.string().describe('character id'),
       z.object({
-        name: z.string().describe('character display name'),
+        name: z.string().describe('character display name').prefault(''),
         outfit: z.string().prefault(''),
         state: z.string().prefault(''),
         thought: z.string().optional(),
